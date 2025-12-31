@@ -15,7 +15,7 @@ body {
   font-family: 'Quicksand', sans-serif;
   background: linear-gradient(135deg, #ffe6f0, #fff0f6, #fffafc);
   background-size: 400% 400%;
-  animation: gradientMove 18s ease infinite;
+  animation: gradientMove 20s ease infinite;
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -25,12 +25,32 @@ body {
   padding: 12px;
 }
 
+/* Floating background */
+.bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.float {
+  position: absolute;
+  font-size: 18px;
+  opacity: 0.18;
+  animation: floatUp 12s linear infinite;
+}
+
+@keyframes floatUp {
+  from { transform: translateY(100vh); }
+  to { transform: translateY(-120vh); }
+}
+
 .page {
   display: none;
   width: 100%;
   max-width: 420px;
-  position: relative;
   animation: fade 0.9s ease;
+  position: relative;
 }
 
 .active { display: block; }
@@ -38,7 +58,6 @@ body {
 h1 {
   color: #ff5c8a;
   font-size: clamp(1.6rem, 6vw, 2.1rem);
-  margin-bottom: 6px;
 }
 
 p {
@@ -67,6 +86,19 @@ button {
   display: block;
 }
 
+/* 🐾 Cat grid */
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.cat-grid img {
+  width: 100%;
+  border-radius: 16px;
+}
+
 video {
   width: 100%;
   border-radius: 18px;
@@ -75,31 +107,8 @@ video {
 
 audio { display: none; }
 
-/* Floating hearts (ONLY on lighten page) */
-.hearts {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.heart {
-  position: absolute;
-  bottom: -20px;
-  font-size: 20px;
-  color: #ff7aa2;
-  opacity: 0.7;
-  animation: floatHeart 6s linear infinite;
-}
-
-@keyframes floatHeart {
-  from { transform: translateY(0) scale(1); opacity: 0; }
-  10% { opacity: 0.8; }
-  to { transform: translateY(-110vh) scale(1.8); opacity: 0; }
-}
-
 @keyframes fade {
-  from { opacity: 0; transform: translateY(10px); }
+  from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
@@ -113,19 +122,31 @@ audio { display: none; }
 
 <body>
 
+<!-- Background floating icons -->
+<div class="bg" id="bg"></div>
+
+<!-- Background music -->
+<audio id="bgMusic" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Final page sound effect -->
+<audio id="finalSfx">
+  <source src="final.mp3" type="audio/mpeg">
+</audio>
+
 <!-- PAGE 1 -->
 <div id="page1" class="page active">
   <img src="29485.jpg" class="cat-img">
   <h1>Happy New Year, My Love 💖</h1>
   <p>Another year, another reason to love you more ✨</p>
-  <button onclick="goToPage(2)">Next ➜</button>
+  <button onclick="startSite(); goToPage(2)">Next ➜</button>
 </div>
 
 <!-- PAGE 2 -->
 <div id="page2" class="page">
   <img src="29487.jpg" class="cat-img">
   <h1>I have a gift for you 🎁</h1>
-  <p>Will you accept it?</p>
   <button onclick="goToPage(4)">Yes 💝</button>
   <button onclick="goToPage(3)">No 🙈</button>
 </div>
@@ -134,7 +155,7 @@ audio { display: none; }
 <div id="page3" class="page">
   <img src="29488.jpg" class="cat-img">
   <h1>Oh nooo…</h1>
-  <p>The kitty is crying 🥺 Please try again 💕</p>
+  <p>The kitty is crying 🥺</p>
   <button onclick="goToPage(2)">Try Again 🔁</button>
 </div>
 
@@ -142,8 +163,8 @@ audio { display: none; }
 <div id="page4" class="page">
   <img src="29489.jpg" class="cat-img">
   <h1>Just for you ❤️</h1>
-  <video id="video1" controls muted playsinline>
-    <source src="gift.mp4" type="video/mp4">
+  <video id="v1" controls muted playsinline>
+    <source src="gift.mp4">
   </video>
 </div>
 
@@ -158,75 +179,71 @@ audio { display: none; }
 <div id="page6" class="page">
   <img src="29489.jpg" class="cat-img">
   <h1>I’m glad I found you ❤️</h1>
-  <video id="video2" controls muted playsinline>
-    <source src="gift2.mp4" type="video/mp4">
+  <video id="v2" controls muted playsinline>
+    <source src="gift2.mp4">
   </video>
 </div>
 
-<!-- 🆕 PAGE 7: LIGHTEN THE MOOD -->
+<!-- 🐾 PAGE 7: LIGHTEN THE MOOD -->
 <div id="page7" class="page">
-  <div class="hearts" id="hearts"></div>
   <h1>Let’s lighten the mood 💕</h1>
-  <p>Enjoy these cuties before the final note 🐾</p>
+  <p>Before the final note… enjoy these cuties 🐾</p>
 
-  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;">
-    <img src="cat1.jpg" style="width:100%;border-radius:16px;">
-    <img src="cat2.jpg" style="width:100%;border-radius:16px;">
-    <img src="cat3.jpg" style="width:100%;border-radius:16px;">
-    <img src="cat4.jpg" style="width:100%;border-radius:16px;">
+  <div class="cat-grid">
+    <img src="cat1.jpg">
+    <img src="cat2.jpg">
+    <img src="cat3.jpg">
+    <img src="cat4.jpg">
   </div>
 
-  <button onclick="startMusicAndGo()">Tap to play music 🎶</button>
+  <button onclick="goToPage(8)">Continue ➜</button>
 </div>
 
-<!-- PAGE 8: FINAL LETTER -->
+<!-- 💌 PAGE 8 FINAL -->
 <div id="page8" class="page">
   <img src="letter.jpg" class="cat-img">
   <h1>For You, Always 💌</h1>
-
-  <audio id="bgMusic" loop>
-    <source src="music.mp3" type="audio/mpeg">
-  </audio>
 </div>
 
 <script>
-const v1 = document.getElementById("video1");
-const v2 = document.getElementById("video2");
-const music = document.getElementById("bgMusic");
-const hearts = document.getElementById("hearts");
+const bgMusic = document.getElementById("bgMusic");
+const finalSfx = document.getElementById("finalSfx");
+const v1 = document.getElementById("v1");
+const v2 = document.getElementById("v2");
+const bg = document.getElementById("bg");
 
+/* Start music after first tap */
+function startSite() {
+  if (bgMusic.paused) {
+    bgMusic.volume = 0.4;
+    bgMusic.play();
+  }
+}
+
+/* Pause music during videos */
+v1.onplay = () => bgMusic.pause();
+v1.onended = () => { bgMusic.play(); goToPage(5); };
+
+v2.onplay = () => bgMusic.pause();
+v2.onended = () => { bgMusic.play(); goToPage(7); };
+
+/* Page navigation */
 function goToPage(n) {
   document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
   document.getElementById("page" + n).classList.add("active");
 
-  if (n === 7) startHearts();
+  if (n === 8) finalSfx.play();
 }
 
-v1.onended = () => goToPage(5);
-v2.onended = () => goToPage(7);
-
-function startMusicAndGo() {
-  music.volume = 0;
-  music.play().then(() => {
-    let v = 0;
-    const fade = setInterval(() => {
-      if (v < 0.8) { v += 0.03; music.volume = v; }
-      else clearInterval(fade);
-    }, 200);
-  });
-  goToPage(8);
-}
-
-function startHearts() {
-  hearts.innerHTML = "";
-  for (let i = 0; i < 20; i++) {
-    const h = document.createElement("div");
-    h.className = "heart";
-    h.innerText = "❤";
-    h.style.left = Math.random() * 100 + "vw";
-    h.style.animationDelay = Math.random() * 5 + "s";
-    hearts.appendChild(h);
-  }
+/* Floating background icons */
+const icons = ["❤","💖","✨","🌸","💕"];
+for (let i = 0; i < 25; i++) {
+  const el = document.createElement("div");
+  el.className = "float";
+  el.innerText = icons[Math.floor(Math.random()*icons.length)];
+  el.style.left = Math.random() * 100 + "vw";
+  el.style.animationDelay = Math.random() * 10 + "s";
+  bg.appendChild(el);
 }
 </script>
 
