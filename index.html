@@ -43,7 +43,7 @@ body {
   to { transform: translateY(-120vh); }
 }
 
-/* Card-like pages */
+/* Card layout */
 .page {
   display: none;
   width: 100%;
@@ -60,7 +60,6 @@ body {
 h1 {
   color: #ff5c8a;
   font-size: clamp(1.6rem, 6vw, 2.1rem);
-  margin-bottom: 6px;
 }
 p { color: #555; }
 
@@ -83,15 +82,10 @@ button {
   color: #fff;
   font-size: 1rem;
   font-weight: 600;
-  letter-spacing: 0.3px;
   box-shadow: 0 12px 26px rgba(255,122,162,0.45);
   cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
-button:active {
-  transform: scale(0.95);
-  box-shadow: 0 6px 14px rgba(255,122,162,0.35);
-}
+button:active { transform: scale(0.95); }
 
 /* Images */
 .cat-img {
@@ -115,6 +109,11 @@ button:active {
 .cat-grid img {
   width: 100%;
   border-radius: 16px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.cat-grid img:active {
+  transform: scale(0.95);
 }
 
 /* Video */
@@ -126,6 +125,34 @@ video {
 }
 
 audio { display: none; }
+
+/* Postcard popup */
+.postcard {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+}
+.postcard-content {
+  background: #fffafc;
+  border-radius: 20px;
+  padding: 20px 18px;
+  max-width: 280px;
+  box-shadow: 0 20px 40px rgba(255,122,162,0.35);
+}
+.postcard-content h3 {
+  color: #ff5c8a;
+  margin-bottom: 8px;
+}
+.postcard-content small {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.75rem;
+  opacity: 0.6;
+}
 
 @keyframes fade {
   from { opacity: 0; transform: translateY(12px); }
@@ -143,7 +170,7 @@ audio { display: none; }
 
 <div class="bg" id="bg"></div>
 
-<!-- 🎵 SINGLE background music -->
+<!-- 🎵 Background music -->
 <audio id="bgMusic" loop></audio>
 
 <!-- PAGE 1 -->
@@ -153,14 +180,13 @@ audio { display: none; }
   <div class="divider">♡ ♡ ♡</div>
   <p>Another year, another reason to love you more ✨</p>
   <button onclick="goToPage(2)">Next ➜</button>
-  <p style="font-size:0.75rem;opacity:0.6;margin-top:6px;">tap anywhere 💕</p>
+  <p style="font-size:0.75rem;opacity:0.6;">tap anywhere 💕</p>
 </div>
 
 <!-- PAGE 2 -->
 <div id="page2" class="page">
   <img src="29487.jpg" class="cat-img">
   <h1>I have a gift for you 🎁</h1>
-  <div class="divider">♡ ♡ ♡</div>
   <button onclick="goToPage(4)">Yes 💝</button>
   <button onclick="goToPage(3)">No 🙈</button>
 </div>
@@ -198,15 +224,16 @@ audio { display: none; }
   </video>
 </div>
 
-<!-- PAGE 7 -->
+<!-- PAGE 7 (INTERACTIVE CATS) -->
 <div id="page7" class="page">
   <h1>Let’s lighten the mood 💕</h1>
   <div class="divider">♡ ♡ ♡</div>
+  <p>Tap a kitty 🐾</p>
   <div class="cat-grid">
-    <img src="cat1.jpg">
-    <img src="cat2.jpg">
-    <img src="cat3.jpg">
-    <img src="cat4.jpg">
+    <img src="cat1.jpg" onclick="showNote(1)">
+    <img src="cat2.jpg" onclick="showNote(2)">
+    <img src="cat3.jpg" onclick="showNote(3)">
+    <img src="cat4.jpg" onclick="showNote(4)">
   </div>
   <button onclick="switchMusicAndContinue()">Continue ➜</button>
 </div>
@@ -217,51 +244,74 @@ audio { display: none; }
   <h1>For You, Always 💌</h1>
 </div>
 
+<!-- 📝 Postcard -->
+<div class="postcard" id="postcard" onclick="closeNote()">
+  <div class="postcard-content">
+    <h3 id="noteTitle"></h3>
+    <p id="noteText"></p>
+    <small>(tap anywhere to close 💗)</small>
+  </div>
+</div>
+
 <script>
-/* ---------- AUDIO ---------- */
+/* AUDIO */
 const bgMusic = document.getElementById("bgMusic");
 bgMusic.src = "music-main.mp3";
 bgMusic.load();
 
-let musicUnlocked = false;
-function unlockMusic() {
-  if (!musicUnlocked) {
-    bgMusic.volume = 0.4;
-    bgMusic.play().then(() => musicUnlocked = true).catch(()=>{});
+let unlocked=false;
+function unlockMusic(){
+  if(!unlocked){
+    bgMusic.volume=0.4;
+    bgMusic.play().then(()=>unlocked=true).catch(()=>{});
   }
 }
-document.addEventListener("touchstart", unlockMusic, { once:true });
-document.addEventListener("click", unlockMusic, { once:true });
+document.addEventListener("touchstart",unlockMusic,{once:true});
+document.addEventListener("click",unlockMusic,{once:true});
 
-/* ---------- VIDEO ---------- */
-const v1 = document.getElementById("v1");
-const v2 = document.getElementById("v2");
+/* VIDEO */
+const v1=document.getElementById("v1");
+const v2=document.getElementById("v2");
+v1.onplay=()=>bgMusic.pause();
+v1.onended=()=>{bgMusic.play();goToPage(5);}
+v2.onplay=()=>bgMusic.pause();
+v2.onended=()=>{bgMusic.play();goToPage(7);}
 
-v1.onplay = () => bgMusic.pause();
-v1.onended = () => { bgMusic.play(); goToPage(5); };
-
-v2.onplay = () => bgMusic.pause();
-v2.onended = () => { bgMusic.play(); goToPage(7); };
-
-/* ---------- MUSIC SWITCH ---------- */
-function switchMusicAndContinue() {
+/* MUSIC SWITCH */
+function switchMusicAndContinue(){
   bgMusic.pause();
-  bgMusic.src = "music-light.mp3";
+  bgMusic.src="music-light.mp3";
   bgMusic.load();
   bgMusic.play();
   goToPage(8);
 }
 
-/* ---------- NAV ---------- */
-function goToPage(n) {
-  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+/* NAV */
+function goToPage(n){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.getElementById("page"+n).classList.add("active");
 }
 
-/* ---------- FLOATING ICONS ---------- */
-const bg = document.getElementById("bg");
-const icons = ["❤","💖","✨","🌸","💕"];
-for (let i=0;i<25;i++){
+/* POSTCARDS */
+function showNote(n){
+  const titles=["","Little Reminder 💖","Just Saying 🐾","From My Heart 💕","Always Us ✨"];
+  const msgs=[
+    "",
+    "You make my ordinary days feel special.",
+    "If I could choose again, I’d still choose you.",
+    "You’re my comfort, my smile, my home.",
+    "No matter where life takes us — it’s you."
+  ];
+  noteTitle.innerText=titles[n];
+  noteText.innerText=msgs[n];
+  postcard.style.display="flex";
+}
+function closeNote(){ postcard.style.display="none"; }
+
+/* FLOATING ICONS */
+const bg=document.getElementById("bg");
+const icons=["❤","💖","✨","🌸","💕"];
+for(let i=0;i<25;i++){
   const el=document.createElement("div");
   el.className="float";
   el.innerText=icons[Math.floor(Math.random()*icons.length)];
