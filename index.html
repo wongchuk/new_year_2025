@@ -60,18 +60,6 @@ button {
   cursor: pointer;
 }
 
-.cat-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  margin-top: 12px;
-}
-
-.cat-grid img {
-  width: 100%;
-  border-radius: 16px;
-}
-
 .cat-img {
   width: 85%;
   max-width: 260px;
@@ -87,7 +75,7 @@ video {
 
 audio { display: none; }
 
-/* 💕 Floating hearts */
+/* Floating hearts (ONLY on lighten page) */
 .hearts {
   position: absolute;
   inset: 0;
@@ -127,31 +115,72 @@ audio { display: none; }
 
 <!-- PAGE 1 -->
 <div id="page1" class="page active">
+  <img src="29485.jpg" class="cat-img">
+  <h1>Happy New Year, My Love 💖</h1>
+  <p>Another year, another reason to love you more ✨</p>
+  <button onclick="goToPage(2)">Next ➜</button>
+</div>
+
+<!-- PAGE 2 -->
+<div id="page2" class="page">
+  <img src="29487.jpg" class="cat-img">
+  <h1>I have a gift for you 🎁</h1>
+  <p>Will you accept it?</p>
+  <button onclick="goToPage(4)">Yes 💝</button>
+  <button onclick="goToPage(3)">No 🙈</button>
+</div>
+
+<!-- PAGE 3 -->
+<div id="page3" class="page">
+  <img src="29488.jpg" class="cat-img">
+  <h1>Oh nooo…</h1>
+  <p>The kitty is crying 🥺 Please try again 💕</p>
+  <button onclick="goToPage(2)">Try Again 🔁</button>
+</div>
+
+<!-- PAGE 4 -->
+<div id="page4" class="page">
+  <img src="29489.jpg" class="cat-img">
   <h1>Just for you ❤️</h1>
   <video id="video1" controls muted playsinline>
     <source src="gift.mp4" type="video/mp4">
   </video>
 </div>
 
-<!-- PAGE 2: LIGHTEN THE MOOD -->
-<div id="page2" class="page">
-  <div class="hearts" id="hearts"></div>
-
-  <h1>Let’s lighten the mood 💕</h1>
-  <p>Before the final message… enjoy these cuties 🐾</p>
-
-  <div class="cat-grid">
-    <img src="cat1.jpg">
-    <img src="cat2.jpg">
-    <img src="cat3.jpg">
-    <img src="cat4.jpg">
-  </div>
-
-  <button onclick="startMusicAndContinue()">Tap to play music 🎶</button>
+<!-- PAGE 5 -->
+<div id="page5" class="page">
+  <img src="29485.jpg" class="cat-img">
+  <h1>Want to continue? 🐾</h1>
+  <button onclick="goToPage(6)">Continue ➜</button>
 </div>
 
-<!-- PAGE 3: FINAL LETTER -->
-<div id="page3" class="page">
+<!-- PAGE 6 -->
+<div id="page6" class="page">
+  <img src="29489.jpg" class="cat-img">
+  <h1>I’m glad I found you ❤️</h1>
+  <video id="video2" controls muted playsinline>
+    <source src="gift2.mp4" type="video/mp4">
+  </video>
+</div>
+
+<!-- 🆕 PAGE 7: LIGHTEN THE MOOD -->
+<div id="page7" class="page">
+  <div class="hearts" id="hearts"></div>
+  <h1>Let’s lighten the mood 💕</h1>
+  <p>Enjoy these cuties before the final note 🐾</p>
+
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;">
+    <img src="cat1.jpg" style="width:100%;border-radius:16px;">
+    <img src="cat2.jpg" style="width:100%;border-radius:16px;">
+    <img src="cat3.jpg" style="width:100%;border-radius:16px;">
+    <img src="cat4.jpg" style="width:100%;border-radius:16px;">
+  </div>
+
+  <button onclick="startMusicAndGo()">Tap to play music 🎶</button>
+</div>
+
+<!-- PAGE 8: FINAL LETTER -->
+<div id="page8" class="page">
   <img src="letter.jpg" class="cat-img">
   <h1>For You, Always 💌</h1>
 
@@ -161,42 +190,42 @@ audio { display: none; }
 </div>
 
 <script>
-const video = document.getElementById("video1");
+const v1 = document.getElementById("video1");
+const v2 = document.getElementById("video2");
 const music = document.getElementById("bgMusic");
-const heartsContainer = document.getElementById("hearts");
-
-video.onended = () => goToPage(2);
+const hearts = document.getElementById("hearts");
 
 function goToPage(n) {
   document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
   document.getElementById("page" + n).classList.add("active");
 
-  if (n === 2) startHearts();
+  if (n === 7) startHearts();
 }
 
-function startMusicAndContinue() {
+v1.onended = () => goToPage(5);
+v2.onended = () => goToPage(7);
+
+function startMusicAndGo() {
   music.volume = 0;
   music.play().then(() => {
     let v = 0;
     const fade = setInterval(() => {
-      if (v < 0.8) {
-        v += 0.03;
-        music.volume = v;
-      } else clearInterval(fade);
+      if (v < 0.8) { v += 0.03; music.volume = v; }
+      else clearInterval(fade);
     }, 200);
   });
-  goToPage(3);
+  goToPage(8);
 }
 
 function startHearts() {
-  heartsContainer.innerHTML = "";
+  hearts.innerHTML = "";
   for (let i = 0; i < 20; i++) {
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerText = "❤";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.animationDelay = Math.random() * 5 + "s";
-    heartsContainer.appendChild(heart);
+    const h = document.createElement("div");
+    h.className = "heart";
+    h.innerText = "❤";
+    h.style.left = Math.random() * 100 + "vw";
+    h.style.animationDelay = Math.random() * 5 + "s";
+    hearts.appendChild(h);
   }
 }
 </script>
