@@ -25,7 +25,7 @@ body {
   padding: 12px;
 }
 
-/* Floating cute background */
+/* Floating background elements */
 .bg {
   position: fixed;
   inset: 0;
@@ -116,7 +116,7 @@ audio { display: none; }
   <img src="29485.jpg" class="cat-img">
   <h1>Happy New Year, My Love 💖</h1>
   <p>Another year, another reason to love you more ✨</p>
-  <button onclick="startSite(); goToPage(2)">Next ➜</button>
+  <button onclick="goToPage(2)">Next ➜</button>
 </div>
 
 <!-- PAGE 2 -->
@@ -180,30 +180,36 @@ audio { display: none; }
 </div>
 
 <script>
+/* ---------- AUDIO SETUP ---------- */
 const bgMusic = document.getElementById("bgMusic");
 bgMusic.src = "music-main.mp3";
 bgMusic.load();
 
+let musicUnlocked = false;
+
+/* GLOBAL unlock (MOST IMPORTANT FIX) */
+function unlockMusic() {
+  if (!musicUnlocked) {
+    bgMusic.volume = 0.4;
+    bgMusic.play().then(() => {
+      musicUnlocked = true;
+    }).catch(()=>{});
+  }
+}
+document.addEventListener("touchstart", unlockMusic, { once: true });
+document.addEventListener("click", unlockMusic, { once: true });
+
+/* ---------- PAGE & VIDEO LOGIC ---------- */
 const v1 = document.getElementById("v1");
 const v2 = document.getElementById("v2");
 const bg = document.getElementById("bg");
 
-/* Start music ONLY on first tap */
-function startSite() {
-  if (bgMusic.paused) {
-    bgMusic.volume = 0.4;
-    bgMusic.play().catch(()=>{});
-  }
-}
-
-/* Pause music during videos */
 v1.onplay = () => bgMusic.pause();
 v1.onended = () => { bgMusic.play(); goToPage(5); };
 
 v2.onplay = () => bgMusic.pause();
 v2.onended = () => { bgMusic.play(); goToPage(7); };
 
-/* Switch music before final page */
 function switchMusicAndContinue() {
   bgMusic.pause();
   bgMusic.src = "music-light.mp3";
@@ -212,13 +218,12 @@ function switchMusicAndContinue() {
   goToPage(8);
 }
 
-/* Page navigation */
 function goToPage(n) {
   document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
   document.getElementById("page" + n).classList.add("active");
 }
 
-/* Floating background icons */
+/* ---------- FLOATING BACKGROUND ---------- */
 const icons = ["❤","💖","✨","🌸","💕"];
 for (let i = 0; i < 25; i++) {
   const el = document.createElement("div");
