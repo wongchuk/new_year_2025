@@ -25,21 +25,19 @@ body {
   padding: 12px;
 }
 
-/* Floating background elements */
+/* Floating cute background */
 .bg {
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: -1;
 }
-
 .float {
   position: absolute;
   font-size: 18px;
   opacity: 0.18;
   animation: floatUp 12s linear infinite;
 }
-
 @keyframes floatUp {
   from { transform: translateY(100vh); }
   to { transform: translateY(-120vh); }
@@ -51,14 +49,9 @@ body {
   max-width: 420px;
   animation: fade 0.9s ease;
 }
-
 .active { display: block; }
 
-h1 {
-  color: #ff5c8a;
-  font-size: clamp(1.6rem, 6vw, 2.1rem);
-}
-
+h1 { color: #ff5c8a; font-size: clamp(1.6rem, 6vw, 2.1rem); }
 p { color: #555; }
 
 button {
@@ -86,7 +79,6 @@ button {
   gap: 10px;
   margin: 12px 0;
 }
-
 .cat-grid img {
   width: 100%;
   border-radius: 16px;
@@ -104,7 +96,6 @@ audio { display: none; }
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
 }
-
 @keyframes gradientMove {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -115,13 +106,10 @@ audio { display: none; }
 
 <body>
 
-<!-- Floating background -->
 <div class="bg" id="bg"></div>
 
-<!-- 🎵 Background Music -->
-<audio id="bgMusic" loop>
-  <source src="music-main.mp3" type="audio/mpeg">
-</audio>
+<!-- 🎵 SINGLE background music element -->
+<audio id="bgMusic" loop></audio>
 
 <!-- PAGE 1 -->
 <div id="page1" class="page active">
@@ -172,22 +160,20 @@ audio { display: none; }
   </video>
 </div>
 
-<!-- PAGE 7: LIGHTEN MOOD (music changes here) -->
+<!-- PAGE 7 -->
 <div id="page7" class="page">
   <h1>Let’s lighten the mood 💕</h1>
   <p>Enjoy these cuties 🐾</p>
-
   <div class="cat-grid">
     <img src="cat1.jpg">
     <img src="cat2.jpg">
     <img src="cat3.jpg">
     <img src="cat4.jpg">
   </div>
-
   <button onclick="switchMusicAndContinue()">Continue ➜</button>
 </div>
 
-<!-- PAGE 8 FINAL -->
+<!-- FINAL PAGE -->
 <div id="page8" class="page">
   <img src="letter.jpg" class="cat-img">
   <h1>For You, Always 💌</h1>
@@ -195,15 +181,18 @@ audio { display: none; }
 
 <script>
 const bgMusic = document.getElementById("bgMusic");
+bgMusic.src = "music-main.mp3";
+bgMusic.load();
+
 const v1 = document.getElementById("v1");
 const v2 = document.getElementById("v2");
 const bg = document.getElementById("bg");
 
-/* Start background music after first tap */
+/* Start music ONLY on first tap */
 function startSite() {
   if (bgMusic.paused) {
     bgMusic.volume = 0.4;
-    bgMusic.play();
+    bgMusic.play().catch(()=>{});
   }
 }
 
