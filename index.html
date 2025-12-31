@@ -2,19 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-  />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Happy New Year ❤️</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
     body {
       margin: 0;
@@ -63,15 +57,12 @@
       animation: fade 0.9s ease;
     }
 
-    .active {
-      display: block;
-    }
+    .active { display: block; }
 
     h1 {
       color: #ff5c8a;
       font-size: clamp(1.6rem, 6vw, 2.1rem);
       margin: 10px 0 6px;
-      line-height: 1.2;
     }
 
     p {
@@ -92,12 +83,9 @@
       color: #fff;
       box-shadow: 0 10px 24px rgba(255, 122, 162, 0.45);
       cursor: pointer;
-      transition: transform 0.2s ease, background 0.2s ease;
     }
 
-    button:active {
-      transform: scale(0.96);
-    }
+    button:active { transform: scale(0.96); }
 
     .cat-img {
       width: 85%;
@@ -107,26 +95,19 @@
       animation: float 4s ease-in-out infinite;
     }
 
-    /* ✅ FINAL VIDEO FIX (MOBILE SAFE) */
-    .video-wrap {
-      width: 100%;
-      margin-top: 12px;
-    }
+    .video-wrap { width: 100%; margin-top: 12px; }
 
     video {
       width: 100%;
       height: auto;
-      display: block;
       border-radius: 18px;
       background: #000;
     }
 
-    audio {
-      display: none;
-    }
+    audio { display: none; }
 
     @keyframes float {
-      0%, 100% { transform: translateY(0); }
+      0%,100% { transform: translateY(0); }
       50% { transform: translateY(-10px); }
     }
 
@@ -191,7 +172,7 @@
   <div id="page5" class="page">
     <img src="29485.jpg" class="cat-img">
     <h1>Want to continue? 🐾</h1>
-    <button onclick="goToPage(6)">Continue ➜</button>
+    <button onclick="startMusicAndContinue()">Continue ➜</button>
   </div>
 
   <!-- Page 6 -->
@@ -222,20 +203,20 @@
     function goToPage(n) {
       document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
       document.getElementById("page" + n).classList.add("active");
+    }
 
-      if (n === 7) {
-        music.volume = 0;
-        music.play();
+    function startMusicAndContinue() {
+      music.volume = 0;
+      music.play().then(() => {
         let v = 0;
         const fade = setInterval(() => {
           if (v < 0.8) {
             v += 0.03;
             music.volume = v;
-          } else {
-            clearInterval(fade);
-          }
+          } else clearInterval(fade);
         }, 200);
-      }
+      });
+      goToPage(6);
     }
 
     mainVideo.onended = () => goToPage(5);
