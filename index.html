@@ -25,7 +25,7 @@ body {
   padding: 12px;
 }
 
-/* Floating background */
+/* Floating background elements */
 .bg {
   position: fixed;
   inset: 0;
@@ -50,7 +50,6 @@ body {
   width: 100%;
   max-width: 420px;
   animation: fade 0.9s ease;
-  position: relative;
 }
 
 .active { display: block; }
@@ -60,10 +59,7 @@ h1 {
   font-size: clamp(1.6rem, 6vw, 2.1rem);
 }
 
-p {
-  font-size: 1rem;
-  color: #555;
-}
+p { color: #555; }
 
 button {
   width: 100%;
@@ -72,10 +68,9 @@ button {
   margin: 14px auto 0;
   border: none;
   border-radius: 999px;
-  font-size: 1rem;
   background: #ff7aa2;
   color: #fff;
-  box-shadow: 0 10px 24px rgba(255,122,162,0.45);
+  font-size: 1rem;
   cursor: pointer;
 }
 
@@ -83,13 +78,11 @@ button {
   width: 85%;
   max-width: 260px;
   margin: 12px auto;
-  display: block;
 }
 
-/* 🐾 Cat grid */
 .cat-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2,1fr);
   gap: 10px;
   margin: 12px 0;
 }
@@ -122,17 +115,12 @@ audio { display: none; }
 
 <body>
 
-<!-- Background floating icons -->
+<!-- Floating background -->
 <div class="bg" id="bg"></div>
 
-<!-- Background music -->
+<!-- 🎵 Background Music -->
 <audio id="bgMusic" loop>
-  <source src="music.mp3" type="audio/mpeg">
-</audio>
-
-<!-- Final page sound effect -->
-<audio id="finalSfx">
-  <source src="final.mp3" type="audio/mpeg">
+  <source src="music-main.mp3" type="audio/mpeg">
 </audio>
 
 <!-- PAGE 1 -->
@@ -184,10 +172,10 @@ audio { display: none; }
   </video>
 </div>
 
-<!-- 🐾 PAGE 7: LIGHTEN THE MOOD -->
+<!-- PAGE 7: LIGHTEN MOOD (music changes here) -->
 <div id="page7" class="page">
   <h1>Let’s lighten the mood 💕</h1>
-  <p>Before the final note… enjoy these cuties 🐾</p>
+  <p>Enjoy these cuties 🐾</p>
 
   <div class="cat-grid">
     <img src="cat1.jpg">
@@ -196,10 +184,10 @@ audio { display: none; }
     <img src="cat4.jpg">
   </div>
 
-  <button onclick="goToPage(8)">Continue ➜</button>
+  <button onclick="switchMusicAndContinue()">Continue ➜</button>
 </div>
 
-<!-- 💌 PAGE 8 FINAL -->
+<!-- PAGE 8 FINAL -->
 <div id="page8" class="page">
   <img src="letter.jpg" class="cat-img">
   <h1>For You, Always 💌</h1>
@@ -207,12 +195,11 @@ audio { display: none; }
 
 <script>
 const bgMusic = document.getElementById("bgMusic");
-const finalSfx = document.getElementById("finalSfx");
 const v1 = document.getElementById("v1");
 const v2 = document.getElementById("v2");
 const bg = document.getElementById("bg");
 
-/* Start music after first tap */
+/* Start background music after first tap */
 function startSite() {
   if (bgMusic.paused) {
     bgMusic.volume = 0.4;
@@ -227,12 +214,19 @@ v1.onended = () => { bgMusic.play(); goToPage(5); };
 v2.onplay = () => bgMusic.pause();
 v2.onended = () => { bgMusic.play(); goToPage(7); };
 
+/* Switch music before final page */
+function switchMusicAndContinue() {
+  bgMusic.pause();
+  bgMusic.src = "music-light.mp3";
+  bgMusic.load();
+  bgMusic.play();
+  goToPage(8);
+}
+
 /* Page navigation */
 function goToPage(n) {
   document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
   document.getElementById("page" + n).classList.add("active");
-
-  if (n === 8) finalSfx.play();
 }
 
 /* Floating background icons */
