@@ -1,231 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Happy New Year ❤️</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Happy New Year ❤️</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
 
-  <style>
-    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+<style>
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-    body {
-      margin: 0;
-      font-family: 'Quicksand', sans-serif;
-      background: linear-gradient(135deg, #ffe6f0, #fff0f6, #fffafc);
-      background-size: 400% 400%;
-      animation: gradientMove 18s ease infinite;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      overflow-x: hidden;
-      padding: 12px;
-    }
+body {
+  margin: 0;
+  font-family: 'Quicksand', sans-serif;
+  background: linear-gradient(135deg, #ffe6f0, #fff0f6, #fffafc);
+  background-size: 400% 400%;
+  animation: gradientMove 18s ease infinite;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow-x: hidden;
+  padding: 12px;
+}
 
-    .bg-hearts {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: -1;
-    }
+.page {
+  display: none;
+  width: 100%;
+  max-width: 420px;
+  animation: fade 0.9s ease;
+  position: relative;
+}
 
-    .bg-hearts::before,
-    .bg-hearts::after {
-      content: "❤  💗  💕  💖  💞";
-      position: absolute;
-      width: 200%;
-      height: 200%;
-      font-size: 20px;
-      opacity: 0.12;
-      animation: drift 50s linear infinite;
-      white-space: pre-wrap;
-    }
+.active { display: block; }
 
-    .bg-hearts::after {
-      animation-duration: 70s;
-      opacity: 0.08;
-    }
+h1 {
+  color: #ff5c8a;
+  font-size: clamp(1.6rem, 6vw, 2.1rem);
+}
 
-    .page {
-      display: none;
-      width: 100%;
-      max-width: 420px;
-      padding: 12px 14px 20px;
-      animation: fade 0.9s ease;
-    }
+p {
+  font-size: 1rem;
+  color: #555;
+}
 
-    .active { display: block; }
+button {
+  width: 100%;
+  max-width: 280px;
+  padding: 14px;
+  margin: 14px auto 0;
+  border: none;
+  border-radius: 999px;
+  font-size: 1rem;
+  background: #ff7aa2;
+  color: #fff;
+  box-shadow: 0 10px 24px rgba(255,122,162,0.45);
+  cursor: pointer;
+}
 
-    h1 {
-      color: #ff5c8a;
-      font-size: clamp(1.6rem, 6vw, 2.1rem);
-      margin: 10px 0 6px;
-    }
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 12px;
+}
 
-    p {
-      font-size: clamp(0.95rem, 4.2vw, 1.1rem);
-      color: #555;
-      margin: 6px 0 14px;
-    }
+.cat-grid img {
+  width: 100%;
+  border-radius: 16px;
+}
 
-    button {
-      width: 100%;
-      max-width: 280px;
-      padding: 14px 0;
-      margin: 10px auto 0;
-      border: none;
-      border-radius: 999px;
-      font-size: 1rem;
-      background: #ff7aa2;
-      color: #fff;
-      box-shadow: 0 10px 24px rgba(255, 122, 162, 0.45);
-      cursor: pointer;
-    }
+.cat-img {
+  width: 85%;
+  max-width: 260px;
+  margin: 12px auto;
+}
 
-    button:active { transform: scale(0.96); }
+video {
+  width: 100%;
+  border-radius: 18px;
+  background: #000;
+}
 
-    .cat-img {
-      width: 85%;
-      max-width: 260px;
-      margin: 12px auto 14px;
-      display: block;
-      animation: float 4s ease-in-out infinite;
-    }
+audio { display: none; }
 
-    .video-wrap { width: 100%; margin-top: 12px; }
+/* 💕 Floating hearts */
+.hearts {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
 
-    video {
-      width: 100%;
-      height: auto;
-      border-radius: 18px;
-      background: #000;
-    }
+.heart {
+  position: absolute;
+  bottom: -20px;
+  font-size: 20px;
+  color: #ff7aa2;
+  opacity: 0.7;
+  animation: floatHeart 6s linear infinite;
+}
 
-    audio { display: none; }
+@keyframes floatHeart {
+  from { transform: translateY(0) scale(1); opacity: 0; }
+  10% { opacity: 0.8; }
+  to { transform: translateY(-110vh) scale(1.8); opacity: 0; }
+}
 
-    @keyframes float {
-      0%,100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
+@keyframes fade {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-    @keyframes fade {
-      from { opacity: 0; transform: translateY(10px) scale(0.96); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-
-    @keyframes gradientMove {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    @keyframes drift {
-      from { transform: translate(0,0); }
-      to { transform: translate(-50%,-50%); }
-    }
-  </style>
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+</style>
 </head>
 
 <body>
-  <div class="bg-hearts"></div>
 
-  <!-- Page 1 -->
-  <div id="page1" class="page active">
-    <img src="29485.jpg" class="cat-img">
-    <h1>Happy New Year, My Love 💖</h1>
-    <p>Another year, another reason to love you more ✨</p>
-    <button onclick="goToPage(2)">Next ➜</button>
+<!-- PAGE 4 -->
+<div id="page4" class="page active">
+  <h1>Just for you ❤️</h1>
+  <video id="finalVideo" controls muted playsinline>
+    <source src="gift2.mp4" type="video/mp4">
+  </video>
+</div>
+
+<!-- 💕 PAGE 5: LIGHTEN THE MOOD -->
+<div id="page5" class="page">
+  <div class="hearts" id="hearts"></div>
+
+  <h1>Let’s lighten the mood 💕</h1>
+  <p>Before the final message… enjoy these cuties 🐾</p>
+
+  <div class="cat-grid">
+    <img src="cat1.jpg">
+    <img src="cat2.jpg">
+    <img src="cat3.jpg">
+    <img src="cat4.jpg">
   </div>
 
-  <!-- Page 2 -->
-  <div id="page2" class="page">
-    <img src="29487.jpg" class="cat-img">
-    <h1>I have a gift for you 🎁</h1>
-    <p>Will you accept it?</p>
-    <button onclick="goToPage(4)">Yes 💝</button>
-    <button onclick="goToPage(3)">No 🙈</button>
-  </div>
+  <button onclick="startMusicAndGo()">Tap to play music 🎶</button>
+</div>
 
-  <!-- Page 3 -->
-  <div id="page3" class="page">
-    <img src="29488.jpg" class="cat-img">
-    <h1>Oh nooo…</h1>
-    <p>The kitty is crying 🥺 Please try again 💕</p>
-    <button onclick="goToPage(2)">Try Again 🔁</button>
-  </div>
+<!-- 💌 FINAL PAGE -->
+<div id="page6" class="page">
+  <img src="letter.jpg" class="cat-img">
+  <h1>For You, Always 💌</h1>
 
-  <!-- Page 4 -->
-  <div id="page4" class="page">
-    <img src="29489.jpg" class="cat-img">
-    <h1>Just for you ❤️</h1>
-    <div class="video-wrap">
-      <video id="mainVideo" controls muted playsinline>
-        <source src="gift.mp4" type="video/mp4">
-      </video>
-    </div>
-  </div>
+  <audio id="bgMusic" loop>
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+</div>
 
-  <!-- Page 5 -->
-  <div id="page5" class="page">
-    <img src="29485.jpg" class="cat-img">
-    <h1>Want to continue? 🐾</h1>
-    <button onclick="goToPage(6)">Continue ➜</button>
-  </div>
+<script>
+const video = document.getElementById("finalVideo");
+const music = document.getElementById("bgMusic");
+const heartsContainer = document.getElementById("hearts");
 
-  <!-- Page 6 -->
-  <div id="page6" class="page">
-    <img src="29489.jpg" class="cat-img">
-    <h1>I’m glad I found you ❤️</h1>
-    <div class="video-wrap">
-      <video id="finalVideo" controls muted playsinline>
-        <source src="gift2.mp4" type="video/mp4">
-      </video>
-    </div>
-  </div>
+video.onended = () => goToPage(5);
 
-  <!-- Page 7 (FINAL LETTER – TAP TO START MUSIC) -->
-  <div id="page7" class="page" onclick="startMusic()">
-    <img src="letter.jpg" class="cat-img">
-    <h1>For You, Always 💌</h1>
-    <p style="font-size:0.9rem;opacity:0.7;">(tap anywhere 💕)</p>
+function goToPage(n) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.getElementById("page" + n).classList.add("active");
 
-    <audio id="bgMusic" loop>
-      <source src="music.mp3" type="audio/mpeg">
-    </audio>
-  </div>
+  if (n === 5) startHearts();
+}
 
-  <script>
-    const mainVideo = document.getElementById("mainVideo");
-    const finalVideo = document.getElementById("finalVideo");
-    const music = document.getElementById("bgMusic");
+function startMusicAndGo() {
+  music.volume = 0;
+  music.play().then(() => {
+    let v = 0;
+    const fade = setInterval(() => {
+      if (v < 0.8) {
+        v += 0.03;
+        music.volume = v;
+      } else clearInterval(fade);
+    }, 200);
+  });
+  goToPage(6);
+}
 
-    function goToPage(n) {
-      document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-      document.getElementById("page" + n).classList.add("active");
-    }
+/* Create floating hearts */
+function startHearts() {
+  heartsContainer.innerHTML = "";
+  for (let i = 0; i < 20; i++) {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerText = "❤";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDelay = Math.random() * 5 + "s";
+    heartsContainer.appendChild(heart);
+  }
+}
+</script>
 
-    function startMusic() {
-      if (music.paused) {
-        music.volume = 0;
-        music.play().then(() => {
-          let v = 0;
-          const fade = setInterval(() => {
-            if (v < 0.8) {
-              v += 0.03;
-              music.volume = v;
-            } else {
-              clearInterval(fade);
-            }
-          }, 200);
-        });
-      }
-    }
-
-    mainVideo.onended = () => goToPage(5);
-    finalVideo.onended = () => goToPage(7);
-  </script>
 </body>
 </html>
