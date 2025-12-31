@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Happy New Year ❤️</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      margin: 0;
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(135deg, #ffe6f0, #fff0f6, #fffafc);
+      background-size: 400% 400%;
+      animation: gradientMove 18s ease infinite;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      padding: env(safe-area-inset-top) env(safe-area-inset-right)
+               env(safe-area-inset-bottom) env(safe-area-inset-left);
+    }
+
+    .bg-hearts {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .bg-hearts::before,
+    .bg-hearts::after {
+      content: '❤  💗  💕  💖  💞';
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      font-size: 20px;
+      opacity: 0.12;
+      animation: drift 45s linear infinite;
+      white-space: pre-wrap;
+    }
+
+    .bg-hearts::after {
+      animation-duration: 65s;
+      opacity: 0.08;
+    }
+
+    .page {
+      display: none;
+      width: 100%;
+      max-width: 420px;
+      padding: 16px 18px 24px;
+      animation: fade 1s ease-in-out;
+    }
+
+    .active { display: block; }
+
+    h1 {
+      color: #ff5c8a;
+      font-size: clamp(1.6rem, 6vw, 2.1rem);
+      margin: 10px 0 6px;
+      line-height: 1.2;
+    }
+
+    p {
+      font-size: clamp(0.95rem, 4.2vw, 1.1rem);
+      color: #555;
+      margin: 6px 0 14px;
+    }
+
+    button {
+      width: 100%;
+      max-width: 280px;
+      padding: 14px 0;
+      margin: 10px auto 0;
+      border: none;
+      border-radius: 999px;
+      font-size: 1rem;
+      cursor: pointer;
+      background: #ff7aa2;
+      color: #fff;
+      box-shadow: 0 10px 24px rgba(255,122,162,0.45);
+      transition: transform 0.25s ease, background 0.25s ease;
+    }
+
+    button:active { transform: scale(0.97); }
+
+    .cat-img {
+      width: 85%;
+      max-width: 260px;
+      height: auto;
+      margin: 12px auto 14px;
+      display: block;
+      animation: float 3.8s ease-in-out infinite;
+    }
+
+    video {
+      width: 100%;
+      max-width: 100%;
+      border-radius: 18px;
+      box-shadow: 0 14px 32px rgba(0,0,0,0.18);
+    }
+
+    audio { display: none; }
+
+    /* Animations */
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes fade {
+      from { opacity: 0; transform: translateY(10px) scale(0.96); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes drift {
+      from { transform: translate(0,0); }
+      to { transform: translate(-50%,-50%); }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-hearts"></div>
+
+  <!-- Page 1 -->
+  <div id="page1" class="page active">
+    <img src="29485.jpg" class="cat-img" />
+    <h1>Happy New Year, My Love 💖</h1>
+    <p>Another year, another reason to love you more ✨</p>
+    <button onclick="goToPage(2)">Next ➜</button>
+  </div>
+
+  <!-- Page 2 -->
+  <div id="page2" class="page">
+    <img src="29487.jpg" class="cat-img" />
+    <h1>I have a gift for you 🎁</h1>
+    <p>Will you accept it?</p>
+    <button onclick="goToPage(4)">Yes 💝</button>
+    <button onclick="goToPage(3)">No 🙈</button>
+  </div>
+
+  <!-- Page 3 -->
+  <div id="page3" class="page">
+    <img src="29488.jpg" class="cat-img" />
+    <h1>Oh nooo…</h1>
+    <p>The kitty is crying 🥺 Please try again 💕</p>
+    <button onclick="goToPage(2)">Try Again 🔁</button>
+  </div>
+
+  <!-- Page 4 -->
+  <div id="page4" class="page">
+    <img src="29489.jpg" class="cat-img" />
+    <h1>Just for you ❤️</h1>
+    <video id="mainVideo" controls autoplay muted playsinline>
+      <source src="gift.mp4" type="video/mp4" />
+    </video>
+  </div>
+
+  <!-- Page 5 -->
+  <div id="page5" class="page">
+    <img src="29485.jpg" class="cat-img" />
+    <h1>Want to continue? 🐾</h1>
+    <button onclick="goToPage(6)">Continue ➜</button>
+  </div>
+
+  <!-- Page 6 -->
+  <div id="page6" class="page">
+    <img src="29489.jpg" class="cat-img" />
+    <h1>I'm glad I found you ❤️</h1>
+    <video id="finalVideo" controls autoplay muted playsinline>
+      <source src="gift2.mp4" type="video/mp4" />
+    </video>
+  </div>
+
+  <!-- Page 7 -->
+  <div id="page7" class="page">
+    <img src="letter.jpg" class="cat-img" />
+    <h1>For You, Always 💌</h1>
+    <audio id="bgMusic" loop>
+      <source src="music.mp3" type="audio/mpeg" />
+    </audio>
+  </div>
+
+  <script>
+    const mainVideo = document.getElementById('mainVideo');
+    const finalVideo = document.getElementById('finalVideo');
+    const music = document.getElementById('bgMusic');
+
+    function goToPage(n) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page' + n).classList.add('active');
+
+      if (n === 7) {
+        music.volume = 0;
+        music.play();
+        let v = 0;
+        const fade = setInterval(() => {
+          if (v < 0.8) { v += 0.03; music.volume = v; }
+          else clearInterval(fade);
+        }, 200);
+      }
+    }
+
+    mainVideo.onended = () => goToPage(5);
+    finalVideo.onended = () => goToPage(7);
+  </script>
+</body>
+</html>
